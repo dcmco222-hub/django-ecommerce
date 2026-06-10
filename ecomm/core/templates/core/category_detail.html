@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+
+<div class="category-hero">
+
+    {% if category.image %}
+        <div class="category-hero-image">
+            <img src="{{ category.image.url }}" alt="{{ category.name }}">
+        </div>
+    {% endif %}
+
+    <div class="category-hero-content">
+
+        <p class="page-eyebrow">Category</p>
+
+        <h1 class="section-title">
+            {{ category.name }}
+        </h1>
+
+        {% if category.description %}
+            <p class="category-description">
+                {{ category.description }}
+            </p>
+        {% endif %}
+
+        <div class="category-meta">
+            <span>
+                {{ products|length }}
+                product{{ products|length|pluralize }}
+                available
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+    <div class="product-card">
+
+        <img
+            src="{{ product.image.url }}"
+            alt="{{ product.name }}"
+        >
+
+        <div class="product-card-content">
+
+            <h3>
+                {{ product.name }}
+            </h3>
+
+            <p class="price">
+                ₦{{ product.get_final_price }}
+            </p>
+
+            <a
+                href="{% url 'product_detail' product.slug %}"
+                class="btn"
+            >
+                View Product
+            </a>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <p class="empty-state">
+        No products in this category yet.
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

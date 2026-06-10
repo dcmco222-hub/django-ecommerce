@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}E-Commerce{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+</head>
+<body>
+
+    {% include "includes/navbar.html" %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+
+        {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="alert">
+
+            {{ message }}
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+    </main>
+
+    {% include "includes/footer.html" %}
+
+</body>
+</html>

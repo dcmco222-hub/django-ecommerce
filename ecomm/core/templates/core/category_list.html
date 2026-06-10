@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+Categories
+{% endblock %}
+
+{% block content %}
+
+<section class="categories-page">
+
+    <div class="section-header">
+
+        <h1>
+            Shop by Category
+        </h1>
+
+        <p>
+            Browse products by category.
+        </p>
+
+    </div>
+
+    <div class="category-grid">
+
+        {% for category in categories %}
+
+        <a
+            href="{% url 'category_detail' category.slug %}"
+            class="category-card"
+        >
+
+            {% if category.image %}
+
+            <img
+                src="{{ category.image.url }}"
+                alt="{{ category.name }}"
+            >
+
+            {% endif %}
+
+            <h3>
+                {{ category.name }}
+            </h3>
+
+            <p>
+                {{ category.products.count }}
+                products
+            </p>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+        <!-- existing product card -->
+
+    {% endfor %}
+
+</div>

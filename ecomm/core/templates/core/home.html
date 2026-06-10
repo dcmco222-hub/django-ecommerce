@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<section class="hero">
+    <h1>Shop Smarter,<br>Live Better.</h1>
+    <p>Discover the latest products at unbeatable prices.</p>
+</section>
+
+<h1 class="section-title">🔥 Featured Products</h1>
+
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        <div class="product-card-content">
+            <h3>{{ product.name }}</h3>
+            <p class="price">₦{{ product.get_final_price }}</p>
+            <a href="{% url 'product_detail' product.slug %}" class="btn">View Product</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
