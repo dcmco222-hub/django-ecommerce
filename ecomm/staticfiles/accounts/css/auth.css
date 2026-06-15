@@ -1,0 +1,85 @@
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 560px; /* wider form */
+}
+
+.btn-large {
+    padding: 10px 20px; /* smaller submit button */
+    font-size: 14px;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-full {
+    width: auto; /* no longer stretches full width */
+    align-self: flex-start;
+}
+
+
+/* === PROFILE PAGE === */
+
+.profile-container{
+    max-width:900px;
+    margin:50px auto;
+    padding:20px;
+}
+
+.profile-card{
+    background:#fff;
+    border-radius:16px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.profile-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.profile-picture{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+}
+
+.username{
+    color:#64748b;
+}
+
+.profile-details{
+    display:grid;
+    gap:20px;
+}
+
+.detail-item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.profile-actions{
+    margin-top:30px;
+    display:flex;
+    gap:15px;
+}
+
+.btn-danger{
+    background:#ef4444;
+    color:white;
+}
+
+.alert{
+    background:#dcfce7;
+    color:#166534;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
