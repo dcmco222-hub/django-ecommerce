@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile
-
+from core.models import Order
 
 
 def login_view(request):
@@ -75,8 +75,18 @@ def logout_view(request):
 
 @login_required
 def orders(request):
-    return render(request, "accounts/orders.html")
-    
+
+    orders = Order.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "accounts/orders.html",
+        {
+            "orders": orders
+        }
+    )    
 from django.contrib.auth.decorators import login_required
 
 
@@ -134,3 +144,4 @@ def edit_profile(request):
             "profile": profile
         }
     )
+

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}
+Search Results
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <p class="page-eyebrow">
+        Search
+    </p>
+
+    <h1 class="section-title">
+        Results for "{{ query }}"
+    </h1>
+
+</div>
+
+<div class="search-layout">
+
+    <aside class="filters">
+
+        <h3>Filters</h3>
+
+        <form method="GET">
+
+            <input
+                type="hidden"
+                name="q"
+                value="{{ query }}"
+            >
+
+            <label>
+                Category
+            </label>
+
+            <select name="category">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                {% for category in categories %}
+
+                <option value="{{ category.id }}">
+                    {{ category.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <label>
+                Minimum Price
+            </label>
+
+            <input
+                type="number"
+                name="min_price"
+            >
+
+            <label>
+                Maximum Price
+            </label>
+
+            <input
+                type="number"
+                name="max_price"
+            >
+
+            <label>
+                Stock
+            </label>
+
+            <select name="stock">
+
+                <option value="">
+                    Any
+                </option>
+
+                <option value="in">
+                    In Stock
+                </option>
+
+            </select>
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Apply Filters
+            </button>
+
+        </form>
+
+    </aside>
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <img
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+            >
+
+            <div class="product-card-content">
+
+                <h3>
+                    {{ product.name }}
+                </h3>
+
+                <p class="price">
+                    ₦{{ product.get_final_price }}
+                </p>
+
+                <a
+                    href="{% url 'product_detail' product.slug %}"
+                    class="btn"
+                >
+                    View Product
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p class="empty-state">
+            No matching products found.
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

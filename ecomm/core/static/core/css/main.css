@@ -445,3 +445,124 @@ footer {
     }
 
 }
+
+/* SEARCH */
+/* ========== SEARCH ========== */
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+}
+
+.search-form:focus-within {
+    background: rgba(255, 255, 255, 0.13);
+    border-color: #f5a623;
+}
+
+.search-form input {
+    padding: 9px 14px;
+    border: none;
+    background: transparent;
+    width: 240px;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    color: white;
+}
+
+.search-form input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-form button {
+    border: none;
+    background: transparent;
+    padding: 9px 14px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-form button:hover {
+    color: #f5a623;
+}
+
+/* FILTER */
+.search-layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:30px;
+}
+
+.filters{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    height:fit-content;
+}
+
+.filters h3{
+    margin-bottom:20px;
+}
+
+.filters form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.filters input,
+.filters select{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.success-card{
+    max-width:700px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.success-card h1{
+    margin-bottom:20px;
+}
+
+.orders-list{
+    display:grid;
+    gap:20px;
+}
+
+.order-card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.checkout-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.checkout-item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+}

@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-
-from .models import Product, Category, Cart, CartItem
-
+from .models import (Product, Category, Cart, CartItem, Order, OrderItem)
+from django.db.models import Q
 
 # Create your views here.
 
@@ -66,13 +65,7 @@ def add_to_cart(request, product_id):
 
     product = get_object_or_404(Product, id=product_id)
 
-    cart_id = request.session.get("cart_id")
-
-    if cart_id:
-        cart = Cart.objects.get(id=cart_id)
-    else:
-        cart = Cart.objects.create()
-        request.session["cart_id"] = cart.id
+    cart, created = Cart.objects.get_or_create(user=request.user)
 
     cart_item, created = CartItem.objects.get_or_create(
         cart=cart,
@@ -89,25 +82,16 @@ def add_to_cart(request, product_id):
 @login_required
 def cart(request):
 
-    cart_id = request.session.get("cart_id")
+    cart, created = Cart.objects.get_or_create(
+        user=request.user
+    )
 
-    items = []
-    total = 0
+    items = cart.items.all()
 
-    if cart_id:
-
-        try:
-            cart = Cart.objects.get(id=cart_id)
-
-            items = cart.items.all()
-
-            total = sum(
-                item.subtotal
-                for item in items
-            )
-
-        except Cart.DoesNotExist:
-            pass
+    total = sum(
+        item.subtotal
+        for item in items
+    )
 
     return render(
         request,
@@ -168,4 +152,117 @@ def category_list(request):
 
     return render(
         request, "core/category_list.html", {"categories": categories}
+    )
+
+def search_products(request):
+
+    query = request.GET.get("q", "")
+
+    products = Product.objects.filter(
+        available=True
+    )
+
+    if query:
+        products = products.filter(
+            name__icontains=query
+        )
+
+    category = request.GET.get("category")
+
+    if category:
+        products = products.filter(
+            category__id=category
+        )
+
+    min_price = request.GET.get("min_price")
+    max_price = request.GET.get("max_price")
+
+    if min_price:
+        products = products.filter(
+            price__gte=min_price
+        )
+
+    if max_price:
+        products = products.filter(
+            price__lte=max_price
+        )
+
+    stock = request.GET.get("stock")
+
+    if stock == "in":
+        products = products.filter(
+            stock__gt=0
+        )
+
+    categories = Category.objects.all()
+
+    return render(
+        request,
+        "core/search_results.html",
+        {"products": products, "query": query, "categories": categories,}
+    )
+
+
+
+@login_required
+def order_success(request, order_id):
+
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
+    )
+
+    return render(
+        request,
+        "core/order_success.html",
+        {
+            "order": order
+        }
+    )
+
+@login_required
+def checkout(request):
+
+    cart, created = Cart.objects.get_or_create(
+    user=request.user
+    )
+
+    items = cart.items.all()
+
+    total = sum(
+        item.subtotal
+        for item in items
+    )
+
+    if request.method == "POST":
+
+        order = Order.objects.create(
+            user=request.user,
+            total_price=total
+        )
+
+        for item in items:
+
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.get_final_price()
+            )
+
+        items.delete()
+
+        return redirect(
+            "order_success",
+            order_id=order.id
+        )
+
+    return render(
+        request,
+        "core/checkout.html",
+        {
+            "items": items,
+            "total": total
+        }
     )
